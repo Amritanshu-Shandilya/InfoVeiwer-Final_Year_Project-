@@ -4,8 +4,10 @@ to ensure security. This function's job is to deal with all of that and get the 
 to make HTTP requests to the server.
 '''
 
+import rsa
+
 def Data_Processor_Module(self, raw_data):
 
-    # implement the logic later
-    return raw_data
+    decoded_data = rsa.decrypt(raw_data, self.private_key).decode()
+    return decoded_data
     
