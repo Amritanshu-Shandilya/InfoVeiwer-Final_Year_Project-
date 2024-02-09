@@ -22,12 +22,12 @@ class Application:
         while DetectAndDecode(self, self.camera, self.qr_detector) != True:
             continue
         
-        # print(self.decoded_data_raw)
+        # print("Encoded Data  ->  "+self.decoded_data_raw)
 
     def data_processing(self):
         # Processes the raw data to convert it into a useable form
         self.processed_data = Data_Processor_Module(self, self.decoded_data_raw)
-        print(self.processed_data)
+        # print("Decrypted data  -> "+str(self.processed_data))
 
 
 App = Application()
