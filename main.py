@@ -1,5 +1,6 @@
 import cv2
 from cryptography.fernet import Fernet
+import requests
 
 
 from Marker_detect_decode import DetectAndDecode
@@ -8,7 +9,8 @@ from Data_processor import Data_Processor_Module
 class Application:
     ''' This is the base of the app. Functions includes : 
         1. Detecting and decoding the marker.
-        2. Processing the raw data extracted from the marker'''
+        2. Processing the raw data extracted from the marker
+        3. Making a request from the processed data'''
     
     def __init__(self) -> None:
         self.camera = cv2.VideoCapture(1)
@@ -16,6 +18,8 @@ class Application:
 
         self.decoded_data_raw = None
         self.processed_data = ""
+
+        self.request_string = ""
     
     def detect_decode(self):
         # Handles detection of markers and extracts the infromation from it
@@ -28,6 +32,10 @@ class Application:
         # Processes the raw data to convert it into a useable form
         self.processed_data = Data_Processor_Module(self, self.decoded_data_raw)
         # print("Decrypted data  -> "+str(self.processed_data))
+
+    def request_former(self):
+        '''This function will take the processed data and will form a request string from it.'''
+        pass
 
 
 App = Application()
