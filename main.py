@@ -19,6 +19,9 @@ class Application:
         self.decoded_data_raw = None
         self.processed_data = ""
 
+        # For storing the response : 
+        self.response_path = './received/'
+
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
         self.server_ip = '192.168.1.22'
         self.server_port = '5000'
@@ -42,17 +45,23 @@ class Application:
         self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.processed_data}')
 
         if self.response.status_code == 200:
-            print('Data received!')
+            # store the text received from server into a file
+                # Create a file inside received folder and store response inside it
+            self.response_path+=str(self.processed_data)+'.txt'
+            text_received_from_server = self.response.text
+            with open(self.response_path, 'w') as file:
+                file.write(text_received_from_server)
+            return True
         else:
             print(f'Error : {self.response.status_code}')
 
 
-        pass
+        
 
 
 App = Application()
 App.detect_decode()
 App.data_processing()
-
+App.request_data()
 App.camera.release()
 cv2.destroyAllWindows()
