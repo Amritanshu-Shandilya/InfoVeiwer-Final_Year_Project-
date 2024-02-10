@@ -37,7 +37,7 @@ class Application:
         self.processed_data = Data_Processor_Module(self, self.decoded_data_raw)
         # print("Decrypted data  -> "+str(self.processed_data))
 
-    def request_data(self, uniuqe_id):
+    def request_data(self):
         '''This function will take the processed data and will form a request string from it.'''
         self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.processed_data}')
 
