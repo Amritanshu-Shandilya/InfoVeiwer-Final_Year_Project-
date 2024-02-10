@@ -19,7 +19,11 @@ class Application:
         self.decoded_data_raw = None
         self.processed_data = ""
 
-        self.request_string = ""
+        # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
+        self.server_ip = '192.168.1.22'
+        self.server_port = '5000'
+
+        self.response = None
     
     def detect_decode(self):
         # Handles detection of markers and extracts the infromation from it
@@ -33,8 +37,16 @@ class Application:
         self.processed_data = Data_Processor_Module(self, self.decoded_data_raw)
         # print("Decrypted data  -> "+str(self.processed_data))
 
-    def request_former(self):
+    def request_data(self, uniuqe_id):
         '''This function will take the processed data and will form a request string from it.'''
+        self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.processed_data}')
+
+        if self.response.status_code == 200:
+            print('Data received!')
+        else:
+            print(f'Error : {self.response.status_code}')
+
+
         pass
 
 
