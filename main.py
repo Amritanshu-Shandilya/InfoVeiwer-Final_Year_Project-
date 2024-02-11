@@ -23,7 +23,7 @@ class Application:
         self.response_path = './received/'
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.1.22'
+        self.server_ip = '192.168.1.12'
         self.server_port = '5000'
 
         self.response = None
