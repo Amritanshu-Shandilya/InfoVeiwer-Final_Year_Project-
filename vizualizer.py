@@ -5,12 +5,9 @@ class FileViewerApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.init_ui()
+        
 
-        # Load file content automatically when the application starts
-        self.load_file()
-
-    def init_ui(self):
+    def init_ui(self, title):
         # Create widgets
         self.text_edit = QTextEdit(self)
 
@@ -29,7 +26,7 @@ class FileViewerApp(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Set window properties
-        self.setWindowTitle('File Viewer')
+        self.setWindowTitle(title)
         self.setGeometry(100, 100, 800, 600)
 
         # Apply styles
@@ -48,7 +45,7 @@ class FileViewerApp(QMainWindow):
                 background-color: #4CAF50;
                 color: white;
                 padding: 8px 16px;
-                font-size: 14px;
+                font-size: 18px;
                 border: none;
                 border-radius: 4px;
             }
@@ -76,6 +73,8 @@ def main():
     app = QApplication(sys.argv)
     main_win = FileViewerApp()
     main_win.show()
+    main_win.init_ui()
+    main_win.load_file()
     sys.exit(app.exec())
 
 if __name__ == '__main__':
