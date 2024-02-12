@@ -56,25 +56,20 @@ class FileViewerApp(QMainWindow):
 
 
 
-    def load_file(self):
-        # Open file dialog to select a text file
+    def load_file(self, file_path):
         
-        file_path = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received\sample.txt'
-
-        if file_path:
-            # Read the content of the selected file
-            with open(file_path, 'r') as file:
-                file_content = file.read()
-
-            # Display the content in the QTextEdit widget
-            self.text_edit.setPlainText(file_content)
+        # Read the content of the selected file
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+        # Display the content in the QTextEdit widget
+        self.text_edit.setPlainText(file_content)
 
 def main():
     app = QApplication(sys.argv)
     main_win = FileViewerApp()
     main_win.show()
-    main_win.init_ui()
-    main_win.load_file()
+    main_win.init_ui(title="Sample text")
+    main_win.load_file(r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received\sample.txt')
     sys.exit(app.exec())
 
 if __name__ == '__main__':
