@@ -1,6 +1,7 @@
 import cv2
 from cryptography.fernet import Fernet
 import requests
+import datetime
 
 
 from Marker_detect_decode import DetectAndDecode
@@ -14,6 +15,9 @@ class Application:
         3. Making a request from the processed data'''
     
     def __init__(self) -> None:
+
+        self.user_id = 'amrit_sandy02'
+
         self.camera = cv2.VideoCapture(1)
         self.qr_detector = cv2.QRCodeDetector()
 
@@ -42,10 +46,16 @@ class Application:
         self.processed_data = Data_Processor_Module(self, self.decoded_data_raw)
         # print("Decrypted data  -> "+str(self.processed_data))
 
+    def get_time(self):
+        '''This function is used to get the cyrrent time and date and format it to send it o the server for maintaining a history.'''
+        current_datetime = datetime.datetime.now()
+        # print(current_datetime) 
+
     def request_data(self):
         '''This function will take the processed data and will form a request string from it.'''
         # Gets the file content
-        self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.processed_data}')
+        time_stamp = self.get_time()
+        self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.processed_data}/{self.user_id}/{time_stamp}')
         # Gets the marker name
         self.marker_name = requests.get(f'http://{self.server_ip}:{self.server_port}/get_name/{self.processed_data}').text
 
@@ -81,4 +91,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    App = Application()
+    App.get_time()
