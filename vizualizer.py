@@ -10,6 +10,7 @@ class FileViewerApp(QMainWindow):
     def init_ui(self, title):
         # Create widgets
         self.text_edit = QTextEdit(self)
+        self.text_edit.setReadOnly(True)
 
         self.close_button = QPushButton('Close', self)
         self.close_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -64,6 +65,7 @@ class FileViewerApp(QMainWindow):
         # Display the content in the QTextEdit widget
         self.text_edit.setPlainText(file_content)
 
+    
 def main():
     app = QApplication(sys.argv)
     main_win = FileViewerApp()
@@ -71,6 +73,8 @@ def main():
     main_win.init_ui(title="Sample text")
     main_win.load_file(r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received\sample.txt')
     sys.exit(app.exec())
+
+
 
 if __name__ == '__main__':
     main()

@@ -2,7 +2,8 @@ import cv2
 from cryptography.fernet import Fernet
 import requests
 import datetime
-
+import sys
+from PyQt6.QtWidgets import QApplication
 
 from Marker_detect_decode import DetectAndDecode
 from Data_processor import Data_Processor_Module
@@ -25,10 +26,10 @@ class Application:
         self.processed_data = ""
 
         # For storing the response : 
-        self.response_path = './received/'
+        self.response_path = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received'
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.125.1'
+        self.server_ip = '192.168.1.14'
         self.server_port = '5000'
 
         self.response = None
@@ -56,6 +57,7 @@ class Application:
         '''This function will take the processed data and will form a request string from it.'''
         # Gets the file content
         time_stamp = self.get_time()
+        
         self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.user_id}/{self.processed_data}/{time_stamp}')
         # Gets the marker name
         # self.marker_name = requests.get(f'http://{self.server_ip}:{self.server_port}/get_name/{self.processed_data}').text
@@ -63,20 +65,23 @@ class Application:
         if self.response.status_code == 200:
             # store the text received from server into a file
                 # Create a file inside received folder and store response inside it
-            self.response_path+=str(self.processed_data)+'.txt'
+           
             text_received_from_server = self.response.text
+            self.response_path= self.response_path+'\\'+str(self.processed_data)+'.txt'
+            print('path : '+self.response_path)
             with open(self.response_path, 'w') as file:
                 file.write(text_received_from_server)
             return True
         else:
-            print(f'Error : {self.response.status_code}')
+            print(f'Error gxh : {self.response.status_code}')
 
     def see_output(self):
-        main_win = FileViewerApp()
-        main_win.show()
-        main_win.init_ui(title = self.marker_name)
-        main_win.load_file(self.response_path)
-        return True
+        app = QApplication(sys.argv)
+        visualizer = FileViewerApp()
+        visualizer.init_ui(title=self.marker_name)
+        visualizer.load_file(self.response_path)
+        visualizer.show()
+        sys.exit(app.exec())
 
 
         
@@ -86,7 +91,7 @@ App = Application()
 App.detect_decode()
 App.data_processing()
 App.request_data()
-# App.see_output()
+App.see_output()
 App.camera.release()
 cv2.destroyAllWindows()
 
