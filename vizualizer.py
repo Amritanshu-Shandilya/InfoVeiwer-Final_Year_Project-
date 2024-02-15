@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QVBoxLayout, QPushButton, QFileDialog, QWidget
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QVBoxLayout, QPushButton, QFileDialog, QWidget, QSizePolicy
 import sys
 
 class FileViewerApp(QMainWindow):
@@ -12,6 +12,8 @@ class FileViewerApp(QMainWindow):
         self.text_edit = QTextEdit(self)
 
         self.close_button = QPushButton('Close', self)
+        self.close_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.close_button.setFixedWidth(80)  # Set width to 60 pixels
         self.close_button.clicked.connect(self.close)
 
         # Set up layout
