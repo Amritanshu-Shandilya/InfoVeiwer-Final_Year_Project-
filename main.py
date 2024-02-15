@@ -28,7 +28,7 @@ class Application:
         self.response_path = './received/'
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.1.12'
+        self.server_ip = '192.168.125.1'
         self.server_port = '5000'
 
         self.response = None
@@ -50,14 +50,15 @@ class Application:
         '''This function is used to get the cyrrent time and date and format it to send it o the server for maintaining a history.'''
         current_datetime = datetime.datetime.now()
         # print(current_datetime) 
+        return current_datetime
 
     def request_data(self):
         '''This function will take the processed data and will form a request string from it.'''
         # Gets the file content
         time_stamp = self.get_time()
-        self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.processed_data}/{self.user_id}/{time_stamp}')
+        self.response = requests.get(f'http://{self.server_ip}:{self.server_port}/get_data/{self.user_id}/{self.processed_data}/{time_stamp}')
         # Gets the marker name
-        self.marker_name = requests.get(f'http://{self.server_ip}:{self.server_port}/get_name/{self.processed_data}').text
+        # self.marker_name = requests.get(f'http://{self.server_ip}:{self.server_port}/get_name/{self.processed_data}').text
 
         if self.response.status_code == 200:
             # store the text received from server into a file
@@ -73,24 +74,19 @@ class Application:
     def see_output(self):
         main_win = FileViewerApp()
         main_win.show()
-        main_win.init_ui(title=self.marker_name)
+        main_win.init_ui(title = self.marker_name)
         main_win.load_file(self.response_path)
         return True
 
 
         
 
-def main():
-    App = Application()
-    App.detect_decode()
-    App.data_processing()
-    App.request_data()
-    App.see_output()
-    App.camera.release()
-    cv2.destroyAllWindows()
 
+App = Application()
+App.detect_decode()
+App.data_processing()
+App.request_data()
+# App.see_output()
+App.camera.release()
+cv2.destroyAllWindows()
 
-if __name__ == '__main__':
-    #main()
-    App = Application()
-    App.get_time()
