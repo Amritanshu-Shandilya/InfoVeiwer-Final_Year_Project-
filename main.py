@@ -69,7 +69,7 @@ class Application:
            
             text_received_from_server = self.response.text
             self.response_path= self.response_path+'\\'+str(self.processed_data)+'.txt'
-            print('path : '+self.response_path)
+            # print('path : '+self.response_path)
             with open(self.response_path, 'w') as file:
                 file.write(text_received_from_server)
             return True
