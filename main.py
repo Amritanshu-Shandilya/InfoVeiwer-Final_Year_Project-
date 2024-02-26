@@ -29,7 +29,7 @@ class Application:
         self.response_path = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received'
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.1.14'
+        self.server_ip = '192.168.1.4'
         self.server_port = '5000'
 
         self.response = None
