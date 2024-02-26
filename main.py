@@ -3,6 +3,7 @@ from cryptography.fernet import Fernet
 import requests
 import datetime
 import sys
+import os
 from PyQt6.QtWidgets import QApplication
 
 from Marker_detect_decode import DetectAndDecode
@@ -29,7 +30,7 @@ class Application:
         self.response_path = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received'
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.1.4'
+        self.server_ip = '192.168.1.14'
         self.server_port = '5000'
 
         self.response = None
@@ -80,10 +81,19 @@ class Application:
         visualizer = FileViewerApp()
         visualizer.init_ui(title=self.marker_name)
         visualizer.load_file(self.response_path)
+
+        # Connect the windowClosed signal to the delete_file method
+        visualizer.window_closed.connect(self.delete_file)
+
         visualizer.show()
         sys.exit(app.exec())
 
 
+    def delete_file(self):
+        # Delete the file when the window is closed
+        if os.path.exists(self.response_path):
+            os.remove(self.response_path)
+    
         
 
 

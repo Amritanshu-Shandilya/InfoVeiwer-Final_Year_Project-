@@ -1,7 +1,13 @@
+from PyQt6.QtGui import QCloseEvent
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QVBoxLayout, QPushButton, QFileDialog, QWidget, QSizePolicy
+from PyQt6.QtCore import pyqtSignal
 import sys
 
 class FileViewerApp(QMainWindow):
+    
+    
+    window_closed = pyqtSignal()
+
     def __init__(self):
         super().__init__()
 
@@ -55,6 +61,10 @@ class FileViewerApp(QMainWindow):
             }
         """)
 
+
+    def closeEvent(self, event):
+        self.window_closed.emit()
+        event.accept()
 
 
     def load_file(self, file_path):
