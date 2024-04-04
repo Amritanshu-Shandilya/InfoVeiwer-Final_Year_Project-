@@ -1,7 +1,10 @@
 from PyQt6.QtGui import QCloseEvent
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QVBoxLayout, QPushButton, QFileDialog, QWidget, QSizePolicy
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QWidget, QSizePolicy
 from PyQt6.QtCore import pyqtSignal
 import sys
+import os
+from pydub import AudioSegment
+from pydub.playback import play
 
 class FileViewerApp(QMainWindow):
     
@@ -23,10 +26,23 @@ class FileViewerApp(QMainWindow):
         self.close_button.setFixedWidth(80)  # Set width to 60 pixels
         self.close_button.clicked.connect(self.close)
 
+        self.listen_button = QPushButton('Listen', self)
+        self.listen_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.listen_button.setFixedWidth(80)  # Set width to 60 pixels
+        self.listen_button.clicked.connect(self.listen)
+
         # Set up layout
         layout = QVBoxLayout()
+        
         layout.addWidget(self.text_edit)
-        layout.addWidget(self.close_button)
+
+        # Widget to hold buttons
+        button_widget = QWidget(self)
+        button_layout = QHBoxLayout(button_widget)
+        button_layout.addStretch(1)  # Add stretchable space before buttons
+        button_layout.addWidget(self.close_button)
+        button_layout.addWidget(self.listen_button)
+        layout.addWidget(button_widget)
 
         central_widget = QWidget()
         central_widget.setLayout(layout)
@@ -66,9 +82,22 @@ class FileViewerApp(QMainWindow):
         self.window_closed.emit()
         event.accept()
 
+    def listen(self, audio_file):
+        audio_file = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received\sample.mp3'
+        if os.path.exists(audio_file):
+            try:
+                # Load the audio file
+                audio = AudioSegment.from_file(audio_file)
+                # Play the audio
+                play(audio)
+            except Exception as e:
+                print("Error:", e)
+                import traceback
+                traceback.print_exc()  # Print the stack trace for detailed debugging
+        else:
+            print("File not found:", audio_file)
 
     def load_file(self, file_path):
-        
         # Read the content of the selected file
         with open(file_path, 'r') as file:
             file_content = file.read()
