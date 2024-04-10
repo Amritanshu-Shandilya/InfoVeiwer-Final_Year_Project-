@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import QApplication
 from Marker_detect_decode import DetectAndDecode
 from Data_processor import Data_Processor_Module
 from vizualizer import FileViewerApp
+from text_to_speech import text_to_speech   
 
 class Application:
     ''' This is the base of the app. Functions includes : 
@@ -30,7 +31,7 @@ class Application:
         self.response_path = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received'
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.1.14'
+        self.server_ip = '192.168.232.246'
         self.server_port = '5000'
 
         self.response = None
@@ -75,6 +76,11 @@ class Application:
             return True
         else:
             print(f'Error gxh : {self.response.status_code}')
+
+            # Create the audio file for that file
+            filename = str(self.processed_data)+'.mp3'
+            text_to_speech(filename, text_received_from_server)
+
 
     def see_output(self):
         app = QApplication(sys.argv)
