@@ -11,8 +11,9 @@ class FileViewerApp(QMainWindow):
     
     window_closed = pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, audio_name):
         super().__init__()
+        self.audio_file = f"received/{audio_name}"
 
         
 
@@ -82,12 +83,12 @@ class FileViewerApp(QMainWindow):
         self.window_closed.emit()
         event.accept()
 
-    def listen(self, audio_file):
-        audio_file = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received\sample.mp3'
-        if os.path.exists(audio_file):
+    def listen(self):
+        # audio_file = r'C:\Users\Shiv\dev\InfoVeiwer-Final_Year_Project-\received\sample.mp3'
+        if os.path.exists(self.audio_file):
             try:
                 # Load the audio file
-                audio = AudioSegment.from_file(audio_file)
+                audio = AudioSegment.from_file(self.audio_file)
                 # Play the audio
                 play(audio)
             except Exception as e:
@@ -95,7 +96,7 @@ class FileViewerApp(QMainWindow):
                 import traceback
                 traceback.print_exc()  # Print the stack trace for detailed debugging
         else:
-            print("File not found:", audio_file)
+            print("File not found:", self.audio_file)
 
     def load_file(self, file_path):
         # Read the content of the selected file

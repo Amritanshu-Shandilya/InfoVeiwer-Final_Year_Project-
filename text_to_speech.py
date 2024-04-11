@@ -2,6 +2,7 @@ from gtts import gTTS
 import os
 
 def text_to_speech(text, filename, lang='en'):
+
     # Create a text-to-speech object
     tts = gTTS(text=text, lang=lang)
     
