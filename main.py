@@ -71,13 +71,9 @@ class Application:
                 # Create a file inside received folder and store response inside it
         
             text_received_from_server = self.response.text
-            self.file_path = self.response_path+'\\'+str(self.processed_data)+'.txt'
-            self.audio_name = str(self.processed_data)+'.mp3'
-            
-            # print('file path : '+self.file_path)
-            # print('audio name : '+self.audio_name)
-            
-            with open(self.file_path, 'w') as file:
+            self.response_path= self.response_path+'\\'+str(self.processed_data)+'.txt'
+            print('path : '+self.response_path)
+            with open(self.response_path, 'w') as file:
                 file.write(text_received_from_server)
             
             # Create the audio file for that file
