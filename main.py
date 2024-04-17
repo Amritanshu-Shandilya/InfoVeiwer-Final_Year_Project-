@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import QApplication
 from Marker_detect_decode import DetectAndDecode
 from Data_processor import Data_Processor_Module
 from vizualizer import FileViewerApp
-from text_to_speech import text_to_speech   
+ 
 
 class Application:
     ''' This is the base of the app. Functions includes : 
@@ -33,7 +33,7 @@ class Application:
         self.audio_name = ''
 
         # THIS IP ADDRESS OF THE SERVER SHOULD BE CHANGED AFTER SERVER IS DEPLOYED!
-        self.server_ip = '192.168.69.1'
+        self.server_ip = '192.168.1.26'
         self.server_port = '5000'
 
         self.response = None
@@ -76,9 +76,6 @@ class Application:
             with open(self.response_path, 'w') as file:
                 file.write(text_received_from_server)
             
-            # Create the audio file for that file
-            text_to_speech(text=text_received_from_server, filename= self.audio_name)
-
             return True
         else:
             print(f'Error gxh : {self.response.status_code}')
@@ -87,9 +84,9 @@ class Application:
 
     def see_output(self):
         app = QApplication(sys.argv)
-        visualizer = FileViewerApp( self.audio_name )
+        visualizer = FileViewerApp()
         visualizer.init_ui(title=self.marker_name)
-        visualizer.load_file(self.file_path)
+        visualizer.load_file(self.response_path)
 
         # Connect the windowClosed signal to the delete_file method
         visualizer.window_closed.connect(self.delete_file)
